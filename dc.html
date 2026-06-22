@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>DC Comics</title>
+
+    <script>
+        var password = prompt("🔒 Enter password to access this library:");
+        if (password !== "YourPassword123") {
+            document.body.innerHTML = "<h1 style='text-align:center;margin-top:100px;color:#e94560;font-family:sans-serif;'>🔒 Access Denied</h1><p style='text-align:center;color:#888;font-family:sans-serif;'>Incorrect password.</p>";
+            throw new Error("Access Denied");
+        }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #1a1a2e; color: #eee; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #16213e, #0f3460); padding: 20px; text-align: center; border-bottom: 3px solid #e94560; }
+        .header h1 { font-size: 2.5rem; color: #e94560; letter-spacing: 2px; }
+        .header p { color: #aaa; margin-top: 5px; }
+        .nav-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; padding: 20px; background: #16213e; border-bottom: 2px solid #0f3460; }
+        .nav-tabs a { padding: 12px 30px; background: #0f3460; color: #ddd; text-decoration: none; border-radius: 8px; transition: all 0.3s ease; font-weight: bold; border: 1px solid transparent; }
+        .nav-tabs a:hover { background: #e94560; color: #fff; transform: scale(1.05); }
+        .nav-tabs a.active { background: #e94560; color: #fff; border-color: #ff6b81; }
+        .content { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .comic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; margin-top: 20px; }
+        .comic-card { background: #16213e; border-radius: 12px; padding: 15px; text-align: center; transition: all 0.3s ease; border: 1px solid #0f3460; cursor: pointer; text-decoration: none; color: #eee; }
+        .comic-card:hover { transform: translateY(-8px); border-color: #e94560; box-shadow: 0 8px 25px rgba(233, 69, 96, 0.3); }
+        .comic-card .cover { width: 100%; aspect-ratio: 2/3; background: #0f3460; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-bottom: 10px; border: 1px solid #1a3a5c; }
+        .comic-card .title { font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; }
+        .comic-card .issue { font-size: 0.8rem; color: #888; }
+        .section-title { font-size: 2rem; color: #e94560; margin-bottom: 10px; border-left: 4px solid #e94560; padding-left: 15px; }
+        .footer { text-align: center; padding: 20px; color: #666; border-top: 1px solid #0f3460; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>📚 DC Comics</h1>
+        <p>Your personal DC collection</p>
+    </header>
+
+    <nav class="nav-tabs">
+        <a href="index.html">🏠 Home</a>
+        <a href="marvel.html">🦸 Marvel</a>
+        <a href="dc.html" class="active">🦇 DC</a>
+        <a href="manga.html">🎌 Manga</a>
+        <a href="indie.html">🎨 Indie</a>
+    </nav>
+
+    <main class="content">
+        <h2 class="section-title">🦇 DC Comics</h2>
+        <div class="comic-grid">
+            <a href="comic.html?id=2" class="comic-card">
+                <div class="cover">🦇</div>
+                <div class="title">Batman: Dark Knight</div>
+                <div class="issue">2024</div>
+            </a>
+            <a href="comic.html?id=8" class="comic-card">
+                <div class="cover">🦸</div>
+                <div class="title">Superman: Legacy</div>
+                <div class="issue">2024</div>
+            </a>
+            <a href="comic.html?id=9" class="comic-card">
+                <div class="cover">⚡</div>
+                <div class="title">The Flash #800</div>
+                <div class="issue">2024</div>
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>🔒 Your private comic library &bull; 2026</p>
+    </footer>
+
+</body>
+</html>
