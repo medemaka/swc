@@ -1,9 +1,10 @@
+<!-- v2 - Fresh deployment -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Marvel Comics</title>
+    <title>0-3 ABY - Star Wars Canon Comics</title>
 
 <!-- Password Protection with Session Persistence -->
 <script>
@@ -12,9 +13,9 @@
         // Already logged in, do nothing
     } else {
         // Ask for password
-        var password = prompt("🔒 Enter password to access this library:");
+        var password = prompt("Enter password to access this library:");
         if (password !== "maul") {
-            document.body.innerHTML = "<h1 style='text-align:center;margin-top:100px;color:#e94560;font-family:sans-serif;'>🔒 Access Denied</h1><p style='text-align:center;color:#888;font-family:sans-serif;'>Incorrect password.</p>";
+            document.body.innerHTML = "<h1 style='text-align:center;margin-top:100px;color:#e94560;font-family:sans-serif;'>Access Denied</h1><p style='text-align:center;color:#888;font-family:sans-serif;'>Incorrect password.</p>";
             throw new Error("Access Denied");
         } else {
             // Save login status in browser storage
@@ -25,66 +26,217 @@
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #1a1a2e; color: #eee; min-height: 100vh; }
-        .header { background: linear-gradient(135deg, #16213e, #0f3460); padding: 20px; text-align: center; border-bottom: 3px solid #e94560; }
-        .header h1 { font-size: 2.5rem; color: #e94560; letter-spacing: 2px; }
-        .header p { color: #aaa; margin-top: 5px; }
-        .nav-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; padding: 20px; background: #16213e; border-bottom: 2px solid #0f3460; }
-        .nav-tabs a { padding: 12px 30px; background: #0f3460; color: #ddd; text-decoration: none; border-radius: 8px; transition: all 0.3s ease; font-weight: bold; border: 1px solid transparent; }
-        .nav-tabs a:hover { background: #e94560; color: #fff; transform: scale(1.05); }
-        .nav-tabs a.active { background: #e94560; color: #fff; border-color: #ff6b81; }
-        .content { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
-        .comic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; margin-top: 20px; }
-        .comic-card { background: #16213e; border-radius: 12px; padding: 15px; text-align: center; transition: all 0.3s ease; border: 1px solid #0f3460; cursor: pointer; text-decoration: none; color: #eee; }
-        .comic-card:hover { transform: translateY(-8px); border-color: #e94560; box-shadow: 0 8px 25px rgba(233, 69, 96, 0.3); }
-        .comic-card .cover { width: 100%; aspect-ratio: 2/3; background: #0f3460; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-bottom: 10px; border: 1px solid #1a3a5c; }
-        .comic-card .title { font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; }
-        .comic-card .issue { font-size: 0.8rem; color: #888; }
-        .section-title { font-size: 2rem; color: #e94560; margin-bottom: 10px; border-left: 4px solid #e94560; padding-left: 15px; }
-        .footer { text-align: center; padding: 20px; color: #666; border-top: 1px solid #0f3460; margin-top: 40px; }
+        body {
+            font-family: 'Trebuchet MS', 'Arial', sans-serif;
+            background: #0a0a0a;
+            color: #e8d5a3;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(ellipse at 20% 50%, rgba(50, 30, 10, 0.3) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(50, 30, 10, 0.3) 0%, transparent 60%),
+                linear-gradient(180deg, #0a0a0a 0%, #1a0f08 100%);
+        }
+        .header {
+            background: linear-gradient(180deg, #1a0f08 0%, #0d0d0d 100%);
+            padding: 30px 20px 20px 20px;
+            text-align: center;
+            border-bottom: 2px solid #e8d5a3;
+            box-shadow: 0 4px 30px rgba(232, 213, 163, 0.1);
+            position: relative;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e8d5a3, transparent);
+        }
+        .header h1 {
+            font-size: 2.8rem;
+            color: #e8d5a3;
+            letter-spacing: 6px;
+            font-weight: 300;
+            text-shadow: 0 0 30px rgba(232, 213, 163, 0.15);
+            font-family: 'Georgia', serif;
+        }
+        .header p {
+            color: #8a7a5a;
+            margin-top: 8px;
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            font-weight: 300;
+        }
+        .header .subtitle-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e8d5a3, transparent);
+            margin: 12px auto 0 auto;
+        }
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 18px 20px;
+            background: #0d0d0d;
+            border-bottom: 1px solid #1a1a1a;
+        }
+        .nav-tabs a {
+            padding: 10px 28px;
+            background: transparent;
+            color: #8a7a5a;
+            text-decoration: none;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            font-weight: 300;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+            border-bottom: 2px solid transparent;
+            text-transform: uppercase;
+        }
+        .nav-tabs a:hover {
+            color: #e8d5a3;
+            border-bottom-color: #e8d5a3;
+            background: rgba(232, 213, 163, 0.05);
+        }
+        .nav-tabs a.active {
+            color: #e8d5a3;
+            border-bottom-color: #e8d5a3;
+            background: rgba(232, 213, 163, 0.08);
+        }
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .section-title {
+            font-size: 1.6rem;
+            color: #e8d5a3;
+            margin-bottom: 25px;
+            padding-left: 15px;
+            border-left: 3px solid #e8d5a3;
+            font-weight: 300;
+            letter-spacing: 3px;
+            font-family: 'Georgia', serif;
+        }
+        .comic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 25px;
+            margin-top: 5px;
+        }
+        .comic-card {
+            background: #111111;
+            border-radius: 4px;
+            padding: 15px 15px 18px 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #1a1a1a;
+            cursor: pointer;
+            text-decoration: none;
+            color: #e8d5a3;
+        }
+        .comic-card:hover {
+            transform: translateY(-6px);
+            border-color: #e8d5a3;
+            box-shadow: 0 8px 30px rgba(232, 213, 163, 0.1);
+            background: #16100a;
+        }
+        .comic-card .cover {
+            width: 100%;
+            aspect-ratio: 2/3;
+            background: #1a1a1a;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            border: 1px solid #222;
+            color: #5a4a3a;
+            font-family: 'Georgia', serif;
+        }
+        .comic-card .title {
+            font-weight: 300;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+            color: #e8d5a3;
+        }
+        .comic-card .issue {
+            font-size: 0.75rem;
+            color: #6a5a4a;
+            letter-spacing: 1px;
+        }
+        .footer {
+            text-align: center;
+            padding: 25px 20px;
+            color: #4a3a2a;
+            border-top: 1px solid #1a1a1a;
+            margin-top: 50px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+        .footer .line {
+            width: 40px;
+            height: 1px;
+            background: #2a1a0a;
+            margin: 0 auto 10px auto;
+        }
     </style>
 </head>
 <body>
 
     <header class="header">
-        <h1>📚 Marvel Comics</h1>
-        <p>Your personal Marvel collection</p>
+        <h1>Star Wars Canon Comics Collection</h1>
+        <p>0-3 ABY</p>
+        <div class="subtitle-line"></div>
     </header>
 
     <nav class="nav-tabs">
-        <a href="index.html">🏠 Home</a>
-        <a href="marvel.html" class="active">🦸 Marvel</a>
-        <a href="dc.html">🦇 DC</a>
+        <a href="index.html">Home</a>
+        <a href="0-3-aby.html" class="active">0-3 ABY</a>
+        <a href="3-4-aby.html">3-4 ABY</a>
     </nav>
 
     <main class="content">
-        <h2 class="section-title">🦸 Marvel Comics</h2>
+        <h2 class="section-title">0-3 ABY</h2>
         <div class="comic-grid">
             <a href="comic.html?id=1" class="comic-card">
-                <div class="cover">🕷️</div>
-                <div class="title">Amazing Spider-Man #1</div>
+                <div class="cover">S</div>
+                <div class="title">Star Wars (2015) #1</div>
+                <div class="issue">2024</div>
+            </a>
+            <a href="comic.html?id=2" class="comic-card">
+                <div class="cover">V</div>
+                <div class="title">Darth Vader (2015) #1</div>
+                <div class="issue">2024</div>
+            </a>
+            <a href="comic.html?id=3" class="comic-card">
+                <div class="cover">A</div>
+                <div class="title">Doctor Aphra (2016) #1</div>
                 <div class="issue">2024</div>
             </a>
             <a href="comic.html?id=5" class="comic-card">
-                <div class="cover">⚡</div>
-                <div class="title">X-Men: Krakoa</div>
+                <div class="cover">O</div>
+                <div class="title">Obi-Wan & Anakin #1</div>
                 <div class="issue">2024</div>
             </a>
             <a href="comic.html?id=6" class="comic-card">
-                <div class="cover">🌙</div>
-                <div class="title">Moon Knight #30</div>
-                <div class="issue">2024</div>
-            </a>
-            <a href="comic.html?id=7" class="comic-card">
-                <div class="cover">⭐</div>
-                <div class="title">Guardians of the Galaxy</div>
+                <div class="cover">M</div>
+                <div class="title">Mace Windu #1</div>
                 <div class="issue">2024</div>
             </a>
         </div>
     </main>
 
     <footer class="footer">
-        <p>🔒 Your private comic library &bull; 2026</p>
+        <div class="line"></div>
+        <p>Your private Star Wars collection &bull; 2026</p>
     </footer>
 
 </body>
