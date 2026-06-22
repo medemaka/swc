@@ -1,9 +1,10 @@
+<!-- v2 - Fresh deployment -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Reading Comic</title>
+    <title>Reading Comic - Star Wars Canon Comics</title>
 
 <!-- Password Protection with Session Persistence -->
 <script>
@@ -12,9 +13,9 @@
         // Already logged in, do nothing
     } else {
         // Ask for password
-        var password = prompt("🔒 Enter password to access this library:");
+        var password = prompt("Enter password to access this library:");
         if (password !== "maul") {
-            document.body.innerHTML = "<h1 style='text-align:center;margin-top:100px;color:#e94560;font-family:sans-serif;'>🔒 Access Denied</h1><p style='text-align:center;color:#888;font-family:sans-serif;'>Incorrect password.</p>";
+            document.body.innerHTML = "<h1 style='text-align:center;margin-top:100px;color:#e94560;font-family:sans-serif;'>Access Denied</h1><p style='text-align:center;color:#888;font-family:sans-serif;'>Incorrect password.</p>";
             throw new Error("Access Denied");
         } else {
             // Save login status in browser storage
@@ -25,64 +26,308 @@
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #1a1a2e; color: #eee; min-height: 100vh; }
-        .header { background: linear-gradient(135deg, #16213e, #0f3460); padding: 15px 20px; border-bottom: 3px solid #e94560; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        .header h1 { font-size: 1.5rem; color: #e94560; }
-        .header a { color: #aaa; text-decoration: none; padding: 8px 20px; background: #0f3460; border-radius: 8px; transition: 0.3s; }
-        .header a:hover { background: #e94560; color: #fff; }
-        .content { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
-        .comic-viewer { background: #16213e; border-radius: 12px; padding: 30px; text-align: center; border: 1px solid #0f3460; }
-        .comic-viewer .page { background: #0f3460; border-radius: 8px; min-height: 500px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #666; border: 1px solid #1a3a5c; margin-bottom: 20px; }
-        .comic-viewer .page img { max-width: 100%; max-height: 600px; border-radius: 8px; }
-        .comic-info { text-align: left; margin-top: 20px; }
-        .comic-info h2 { color: #e94560; margin-bottom: 10px; }
-        .comic-info p { color: #aaa; line-height: 1.6; }
-        .btn-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
-        .btn { padding: 12px 30px; background: #0f3460; color: #ddd; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 1rem; text-decoration: none; display: inline-block; }
-        .btn:hover { background: #e94560; color: #fff; }
-        .btn-primary { background: #e94560; color: #fff; }
-        .btn-primary:hover { background: #ff6b81; }
-        .footer { text-align: center; padding: 20px; color: #666; border-top: 1px solid #0f3460; margin-top: 40px; }
-        .pdf-link { color: #e94560; text-decoration: none; font-weight: bold; }
-        .pdf-link:hover { text-decoration: underline; }
+        body {
+            font-family: 'Trebuchet MS', 'Arial', sans-serif;
+            background: #0a0a0a;
+            color: #e8d5a3;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(ellipse at 20% 50%, rgba(50, 30, 10, 0.3) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(50, 30, 10, 0.3) 0%, transparent 60%),
+                linear-gradient(180deg, #0a0a0a 0%, #1a0f08 100%);
+        }
+        .header {
+            background: linear-gradient(180deg, #1a0f08 0%, #0d0d0d 100%);
+            padding: 15px 20px;
+            border-bottom: 2px solid #e8d5a3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 30px rgba(232, 213, 163, 0.05);
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            color: #e8d5a3;
+            font-weight: 300;
+            letter-spacing: 3px;
+            font-family: 'Georgia', serif;
+        }
+        .header a {
+            color: #8a7a5a;
+            text-decoration: none;
+            padding: 8px 20px;
+            background: transparent;
+            border: 1px solid #2a1a0a;
+            border-radius: 2px;
+            transition: 0.3s;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        .header a:hover {
+            background: #e8d5a3;
+            color: #0a0a0a;
+            border-color: #e8d5a3;
+        }
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .comic-viewer {
+            background: #111111;
+            border-radius: 4px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid #1a1a1a;
+        }
+        .comic-viewer .page {
+            background: #0a0a0a;
+            border-radius: 2px;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #4a3a2a;
+            border: 1px solid #1a1a1a;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .comic-viewer .page img {
+            max-width: 100%;
+            max-height: 600px;
+            border-radius: 2px;
+        }
+        .comic-viewer .page .page-number {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            color: #4a3a2a;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        .comic-info {
+            text-align: left;
+            margin-top: 20px;
+            padding: 15px 20px;
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-radius: 2px;
+        }
+        .comic-info h2 {
+            color: #e8d5a3;
+            margin-bottom: 8px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            font-family: 'Georgia', serif;
+        }
+        .comic-info p {
+            color: #8a7a5a;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+        .comic-info .label {
+            color: #6a5a4a;
+            font-weight: 300;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 12px 30px;
+            background: transparent;
+            color: #8a7a5a;
+            border: 1px solid #2a1a0a;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 1px;
+            font-family: 'Trebuchet MS', 'Arial', sans-serif;
+        }
+        .btn:hover {
+            background: #e8d5a3;
+            color: #0a0a0a;
+            border-color: #e8d5a3;
+        }
+        .btn-primary {
+            background: #e8d5a3;
+            color: #0a0a0a;
+            border-color: #e8d5a3;
+        }
+        .btn-primary:hover {
+            background: #f0e5c0;
+            border-color: #f0e5c0;
+        }
+        .footer {
+            text-align: center;
+            padding: 25px 20px;
+            color: #4a3a2a;
+            border-top: 1px solid #1a1a1a;
+            margin-top: 50px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+        .footer .line {
+            width: 40px;
+            height: 1px;
+            background: #2a1a0a;
+            margin: 0 auto 10px auto;
+        }
+        .download-link {
+            color: #e8d5a3;
+            text-decoration: none;
+            font-weight: 300;
+            letter-spacing: 1px;
+            border-bottom: 1px solid transparent;
+            transition: 0.3s;
+        }
+        .download-link:hover {
+            border-bottom-color: #e8d5a3;
+        }
+        .page-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .page-controls span {
+            color: #6a5a4a;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        .no-pages {
+            color: #4a3a2a;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
     </style>
 </head>
 <body>
 
     <header class="header">
-        <h1>📖 Reading...</h1>
+        <h1>Reading Comic</h1>
         <a href="index.html">← Back to Library</a>
     </header>
 
     <main class="content">
         <div class="comic-viewer">
-            <div class="page">
-                <p>📄 Page 1</p>
-                <!-- Add your comic page images here -->
-                <!-- <img src="comic-pages/page1.jpg" alt="Comic Page"> -->
+            <div class="page" id="comicPage">
+                <p class="no-pages">No comic loaded</p>
+                <span class="page-number" id="pageNumber"></span>
             </div>
 
             <div class="btn-group">
-                <button class="btn">◀ Previous</button>
-                <button class="btn btn-primary" onclick="window.location.href='#'">📥 Download PDF</button>
-                <button class="btn">Next ▶</button>
+                <button class="btn" id="prevBtn">◀ Previous</button>
+                <button class="btn btn-primary" id="downloadBtn">Download PDF</button>
+                <button class="btn" id="nextBtn">Next ▶</button>
+            </div>
+            <div class="page-controls">
+                <span id="pageInfo">Page 0 of 0</span>
             </div>
 
             <div class="comic-info">
-                <h2>Amazing Spider-Man #1</h2>
-                <p><strong>Published:</strong> 2024</p>
-                <p><strong>Publisher:</strong> Marvel Comics</p>
-                <p>A thrilling new adventure for your friendly neighborhood Spider-Man!</p>
+                <h2 id="comicTitle">Star Wars (2015) #1</h2>
+                <p><span class="label">Published:</span> <span id="comicPublished">2024</span></p>
+                <p><span class="label">Publisher:</span> <span id="comicPublisher">Marvel Comics</span></p>
+                <p id="comicDescription">A thrilling adventure in the Star Wars galaxy!</p>
                 <p style="margin-top:10px;">
-                    <a href="#" class="pdf-link">📄 Download PDF</a>
+                    <a href="#" class="download-link" id="downloadLink">Download PDF</a>
                 </p>
             </div>
         </div>
     </main>
 
     <footer class="footer">
-        <p>🔒 Your private comic library &bull; 2026</p>
+        <div class="line"></div>
+        <p>Your private Star Wars collection &bull; 2026</p>
     </footer>
+
+    <script>
+        // Simple comic viewer with page navigation
+        // Replace these with your actual page images
+        const pages = [
+            'page1.jpg',
+            'page2.jpg',
+            'page3.jpg',
+            'page4.jpg'
+        ];
+        
+        let currentPage = 0;
+        const pageElement = document.getElementById('comicPage');
+        const pageNumber = document.getElementById('pageNumber');
+        const pageInfo = document.getElementById('pageInfo');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function loadPage(index) {
+            if (pages.length === 0) {
+                pageElement.innerHTML = '<p class="no-pages">No pages available</p>';
+                pageNumber.textContent = '';
+                pageInfo.textContent = 'Page 0 of 0';
+                return;
+            }
+            
+            if (index < 0) index = 0;
+            if (index >= pages.length) index = pages.length - 1;
+            currentPage = index;
+            
+            const img = document.createElement('img');
+            img.src = pages[currentPage];
+            img.alt = `Page ${currentPage + 1}`;
+            img.onerror = function() {
+                this.style.display = 'none';
+                pageElement.innerHTML = `<p class="no-pages">Page ${currentPage + 1} not found</p><span class="page-number">${currentPage + 1} / ${pages.length}</span>`;
+                pageNumber.textContent = `${currentPage + 1} / ${pages.length}`;
+            };
+            img.onload = function() {
+                pageElement.innerHTML = '';
+                pageElement.appendChild(img);
+                const numSpan = document.createElement('span');
+                numSpan.className = 'page-number';
+                numSpan.textContent = `${currentPage + 1} / ${pages.length}`;
+                pageElement.appendChild(numSpan);
+                pageNumber.textContent = `${currentPage + 1} / ${pages.length}`;
+            };
+            
+            pageInfo.textContent = `Page ${currentPage + 1} of ${pages.length}`;
+            
+            // Update button states
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage === pages.length - 1;
+            prevBtn.style.opacity = currentPage === 0 ? '0.3' : '1';
+            nextBtn.style.opacity = currentPage === pages.length - 1 ? '0.3' : '1';
+        }
+
+        prevBtn.addEventListener('click', function() {
+            if (currentPage > 0) loadPage(currentPage - 1);
+        });
+
+        nextBtn.addEventListener('click', function() {
+            if (currentPage < pages.length - 1) loadPage(currentPage + 1);
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                if (currentPage > 0) loadPage(currentPage - 1);
+            } else if (e.key === 'ArrowRight') {
+                if (currentPage < pages.length - 1) loadPage(currentPage + 1);
+            }
+        });
+
+        // Load first page
+        loadPage(0);
+    </script>
 
 </body>
 </html>
