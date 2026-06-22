@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Reading Comic</title>
+
+    <script>
+        var password = prompt("🔒 Enter password to access this library:");
+        if (password !== "YourPassword123") {
+            document.body.innerHTML = "<h1 style='text-align:center;margin-top:100px;color:#e94560;font-family:sans-serif;'>🔒 Access Denied</h1><p style='text-align:center;color:#888;font-family:sans-serif;'>Incorrect password.</p>";
+            throw new Error("Access Denied");
+        }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #1a1a2e; color: #eee; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #16213e, #0f3460); padding: 15px 20px; border-bottom: 3px solid #e94560; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .header h1 { font-size: 1.5rem; color: #e94560; }
+        .header a { color: #aaa; text-decoration: none; padding: 8px 20px; background: #0f3460; border-radius: 8px; transition: 0.3s; }
+        .header a:hover { background: #e94560; color: #fff; }
+        .content { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
+        .comic-viewer { background: #16213e; border-radius: 12px; padding: 30px; text-align: center; border: 1px solid #0f3460; }
+        .comic-viewer .page { background: #0f3460; border-radius: 8px; min-height: 500px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #666; border: 1px solid #1a3a5c; margin-bottom: 20px; }
+        .comic-viewer .page img { max-width: 100%; max-height: 600px; border-radius: 8px; }
+        .comic-info { text-align: left; margin-top: 20px; }
+        .comic-info h2 { color: #e94560; margin-bottom: 10px; }
+        .comic-info p { color: #aaa; line-height: 1.6; }
+        .btn-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+        .btn { padding: 12px 30px; background: #0f3460; color: #ddd; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 1rem; text-decoration: none; display: inline-block; }
+        .btn:hover { background: #e94560; color: #fff; }
+        .btn-primary { background: #e94560; color: #fff; }
+        .btn-primary:hover { background: #ff6b81; }
+        .footer { text-align: center; padding: 20px; color: #666; border-top: 1px solid #0f3460; margin-top: 40px; }
+        .pdf-link { color: #e94560; text-decoration: none; font-weight: bold; }
+        .pdf-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>📖 Reading...</h1>
+        <a href="index.html">← Back to Library</a>
+    </header>
+
+    <main class="content">
+        <div class="comic-viewer">
+            <div class="page">
+                <p>📄 Page 1</p>
+                <!-- Add your comic page images here -->
+                <!-- <img src="comic-pages/page1.jpg" alt="Comic Page"> -->
+            </div>
+
+            <div class="btn-group">
+                <button class="btn">◀ Previous</button>
+                <button class="btn btn-primary" onclick="window.location.href='#'">📥 Download PDF</button>
+                <button class="btn">Next ▶</button>
+            </div>
+
+            <div class="comic-info">
+                <h2>Amazing Spider-Man #1</h2>
+                <p><strong>Published:</strong> 2024</p>
+                <p><strong>Publisher:</strong> Marvel Comics</p>
+                <p>A thrilling new adventure for your friendly neighborhood Spider-Man!</p>
+                <p style="margin-top:10px;">
+                    <a href="#" class="pdf-link">📄 Download PDF</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>🔒 Your private comic library &bull; 2026</p>
+    </footer>
+
+</body>
+</html>
