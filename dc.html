@@ -5,13 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>DC Comics</title>
 
-    <script>
+<!-- Password Protection with Session Persistence -->
+<script>
+    // Check if user is already logged in
+    if (localStorage.getItem('comicLibraryLoggedIn') === 'true') {
+        // Already logged in, do nothing
+    } else {
+        // Ask for password
         var password = prompt("🔒 Enter password to access this library:");
         if (password !== "maul") {
             document.body.innerHTML = "<h1 style='text-align:center;margin-top:100px;color:#e94560;font-family:sans-serif;'>🔒 Access Denied</h1><p style='text-align:center;color:#888;font-family:sans-serif;'>Incorrect password.</p>";
             throw new Error("Access Denied");
+        } else {
+            // Save login status in browser storage
+            localStorage.setItem('comicLibraryLoggedIn', 'true');
         }
-    </script>
+    }
+</script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
