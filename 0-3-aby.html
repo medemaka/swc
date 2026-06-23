@@ -1,493 +1,291 @@
+<!-- v2 - Fresh deployment -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>0-3 ABY – Star Wars Canon Comics Collection</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>0-3 ABY - Star Wars Canon Comics</title>
 
-  <!-- Password Protection -->
-  <script>
-    if (localStorage.getItem('comicLibraryLoggedIn') !== 'true') {
-      var password = prompt("Enter password to access this library:");
-      if (password !== "maul") {
-        document.body.innerHTML = "<h1 style='text-align:center;margin-top:100px;color:#e94560;font-family:sans-serif;'>Access Denied</h1><p style='text-align:center;color:#888;font-family:sans-serif;'>Incorrect password.</p>";
-        throw new Error("Access Denied");
-      } else {
-        localStorage.setItem('comicLibraryLoggedIn', 'true');
-      }
+<!-- Password Protection with Session Persistence -->
+<script>
+    // Check if user is already logged in
+    if (localStorage.getItem('comicLibraryLoggedIn') === 'true') {
+        // Already logged in, do nothing
+    } else {
+        // Ask for password
+        var password = prompt("Enter password to access this library:");
+        if (password !== "maul") {
+            document.body.innerHTML = "<h1 style='text-align:center;margin-top:100px;color:#e94560;font-family:sans-serif;'>Access Denied</h1><p style='text-align:center;color:#888;font-family:sans-serif;'>Incorrect password.</p>";
+            throw new Error("Access Denied");
+        } else {
+            // Save login status in browser storage
+            localStorage.setItem('comicLibraryLoggedIn', 'true');
+        }
     }
-  </script>
+</script>
 
-  <style>
-    /* ---------- RESET + GLOBAL ---------- */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Trebuchet MS', 'Arial', sans-serif;
-      background: #0a0a0a;
-      color: #e8d5a3;
-      min-height: 100vh;
-      background-image:
-        radial-gradient(ellipse at 20% 50%, rgba(50, 30, 10, 0.3) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 50%, rgba(50, 30, 10, 0.3) 0%, transparent 60%),
-        linear-gradient(180deg, #0a0a0a 0%, #1a0f08 100%);
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* ---------- HEADER (same as index) ---------- */
-    .header {
-      background: linear-gradient(180deg, #1a0f08 0%, #0d0d0d 100%);
-      padding: 30px 20px 20px 20px;
-      text-align: center;
-      border-bottom: 2px solid #e8d5a3;
-      box-shadow: 0 4px 30px rgba(232, 213, 163, 0.1);
-      position: relative;
-      flex-shrink: 0;
-    }
-    .header::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 10%;
-      right: 10%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #e8d5a3, transparent);
-    }
-    .header h1 {
-      font-size: 2.8rem;
-      color: #e8d5a3;
-      letter-spacing: 6px;
-      font-weight: 300;
-      text-shadow: 0 0 30px rgba(232, 213, 163, 0.15);
-      font-family: 'Georgia', serif;
-    }
-    .header p {
-      color: #8a7a5a;
-      margin-top: 8px;
-      font-size: 1.1rem;
-      letter-spacing: 3px;
-      font-weight: 300;
-    }
-    .header .subtitle-line {
-      width: 80px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #e8d5a3, transparent);
-      margin: 12px auto 0 auto;
-    }
-
-    /* ---------- NAV (same as index) ---------- */
-    .nav-tabs {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 5px;
-      padding: 18px 20px;
-      background: #0d0d0d;
-      border-bottom: 1px solid #1a1a1a;
-      flex-shrink: 0;
-    }
-    .nav-tabs a {
-      padding: 10px 28px;
-      background: transparent;
-      color: #8a7a5a;
-      text-decoration: none;
-      border-radius: 0;
-      transition: all 0.3s ease;
-      font-weight: 300;
-      letter-spacing: 2px;
-      font-size: 0.9rem;
-      border: 1px solid transparent;
-      border-bottom: 2px solid transparent;
-      text-transform: uppercase;
-    }
-    .nav-tabs a:hover {
-      color: #e8d5a3;
-      border-bottom-color: #e8d5a3;
-      background: rgba(232, 213, 163, 0.05);
-    }
-    .nav-tabs a.active {
-      color: #e8d5a3;
-      border-bottom-color: #e8d5a3;
-      background: rgba(232, 213, 163, 0.08);
-    }
-
-    /* ---------- READER CONTROLS ---------- */
-    .reader-controls {
-      background: #0d0d0d;
-      padding: 10px 20px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      border-bottom: 1px solid #1a1a1a;
-      flex-shrink: 0;
-    }
-    .reader-controls select {
-      padding: 6px 12px;
-      background: #1a1a1a;
-      color: #e8d5a3;
-      border: 1px solid #333;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      cursor: pointer;
-      max-width: 250px;
-    }
-    .reader-controls button {
-      background: #1a1a1a;
-      color: #e8d5a3;
-      border: 1px solid #333;
-      padding: 6px 14px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      transition: all 0.2s;
-    }
-    .reader-controls button:hover {
-      background: #2a1a0a;
-      border-color: #e8d5a3;
-    }
-    .reader-controls .page-indicator {
-      color: #8a7a5a;
-      font-size: 0.85rem;
-      min-width: 100px;
-      text-align: center;
-    }
-    .reader-controls .download-btn {
-      background: #1a1a1a;
-      color: #e8d5a3;
-      border: 1px solid #333;
-      padding: 6px 14px;
-      border-radius: 4px;
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: all 0.2s;
-    }
-    .reader-controls .download-btn:hover {
-      background: #2a1a0a;
-      border-color: #e8d5a3;
-    }
-    .reader-controls .back-link {
-      color: #8a7a5a;
-      text-decoration: none;
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-      transition: color 0.2s;
-    }
-    .reader-controls .back-link:hover {
-      color: #e8d5a3;
-    }
-
-    /* ---------- MAIN READER ---------- */
-    .reader-main {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      overflow: hidden;
-      background: #0a0a0a;
-    }
-    .spread-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 4px;
-      max-width: 100%;
-      max-height: 80vh;
-      transform-origin: center center;
-      transition: transform 0.15s ease;
-    }
-    .spread-container img {
-      max-width: 49vw;
-      max-height: 80vh;
-      height: auto;
-      border: 1px solid #222;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-      background: #000;
-      image-rendering: high-quality;
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-
-    /* ---------- RESPONSIVE ---------- */
-    @media (max-width: 768px) {
-      .header h1 { font-size: 1.8rem; letter-spacing: 3px; }
-      .reader-controls { gap: 6px; padding: 8px 12px; }
-      .reader-controls select { max-width: 160px; font-size: 0.75rem; }
-      .reader-controls button, .reader-controls .download-btn { padding: 4px 10px; font-size: 0.75rem; }
-      .spread-container { flex-direction: column; gap: 6px; }
-      .spread-container img { max-width: 95vw; max-height: 45vh; }
-    }
-    @media (max-width: 480px) {
-      .header h1 { font-size: 1.3rem; letter-spacing: 2px; }
-      .nav-tabs a { padding: 8px 14px; font-size: 0.7rem; letter-spacing: 1px; }
-    }
-
-    /* ---------- FOOTER ---------- */
-    .footer {
-      text-align: center;
-      padding: 15px 20px;
-      color: #4a3a2a;
-      border-top: 1px solid #1a1a1a;
-      font-size: 0.8rem;
-      letter-spacing: 2px;
-      font-weight: 300;
-      flex-shrink: 0;
-    }
-    .footer .line {
-      width: 40px;
-      height: 1px;
-      background: #2a1a0a;
-      margin: 0 auto 8px auto;
-    }
-  </style>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Trebuchet MS', 'Arial', sans-serif;
+            background: #0a0a0a;
+            color: #e8d5a3;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(ellipse at 20% 50%, rgba(50, 30, 10, 0.3) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(50, 30, 10, 0.3) 0%, transparent 60%),
+                linear-gradient(180deg, #0a0a0a 0%, #1a0f08 100%);
+        }
+        .header {
+            background: linear-gradient(180deg, #1a0f08 0%, #0d0d0d 100%);
+            padding: 30px 20px 20px 20px;
+            text-align: center;
+            border-bottom: 2px solid #e8d5a3;
+            box-shadow: 0 4px 30px rgba(232, 213, 163, 0.1);
+            position: relative;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e8d5a3, transparent);
+        }
+        .header h1 {
+            font-size: 2.8rem;
+            color: #e8d5a3;
+            letter-spacing: 6px;
+            font-weight: 300;
+            text-shadow: 0 0 30px rgba(232, 213, 163, 0.15);
+            font-family: 'Georgia', serif;
+        }
+        .header p {
+            color: #8a7a5a;
+            margin-top: 8px;
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            font-weight: 300;
+        }
+        .header .subtitle-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e8d5a3, transparent);
+            margin: 12px auto 0 auto;
+        }
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 18px 20px;
+            background: #0d0d0d;
+            border-bottom: 1px solid #1a1a1a;
+        }
+        .nav-tabs a {
+            padding: 10px 28px;
+            background: transparent;
+            color: #8a7a5a;
+            text-decoration: none;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            font-weight: 300;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+            border-bottom: 2px solid transparent;
+            text-transform: uppercase;
+        }
+        .nav-tabs a:hover {
+            color: #e8d5a3;
+            border-bottom-color: #e8d5a3;
+            background: rgba(232, 213, 163, 0.05);
+        }
+        .nav-tabs a.active {
+            color: #e8d5a3;
+            border-bottom-color: #e8d5a3;
+            background: rgba(232, 213, 163, 0.08);
+        }
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .section-title {
+            font-size: 1.6rem;
+            color: #e8d5a3;
+            margin-bottom: 25px;
+            padding-left: 15px;
+            border-left: 3px solid #e8d5a3;
+            font-weight: 300;
+            letter-spacing: 3px;
+            font-family: 'Georgia', serif;
+        }
+        .comic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 5px;
+        }
+        .comic-card {
+            background: #111111;
+            border-radius: 4px;
+            padding: 20px 20px 25px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #1a1a1a;
+            cursor: pointer;
+            text-decoration: none;
+            color: #e8d5a3;
+        }
+        .comic-card:hover {
+            transform: translateY(-8px);
+            border-color: #e8d5a3;
+            box-shadow: 0 8px 30px rgba(232, 213, 163, 0.15);
+            background: #16100a;
+        }
+        .comic-card .cover {
+            width: 100%;
+            aspect-ratio: 2/3;
+            background: #1a1a1a;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            border: 1px solid #222;
+            color: #5a4a3a;
+            font-family: 'Georgia', serif;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150" opacity="0.1"><rect width="100" height="150" fill="%231a1a1a"/><text x="50" y="80" font-family="Georgia" font-size="40" fill="%235a4a3a" text-anchor="middle">★</text></svg>');
+            background-size: cover;
+        }
+        .comic-card .cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+        .comic-card .title {
+            font-weight: 300;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            color: #e8d5a3;
+        }
+        .comic-card .subtitle {
+            font-size: 0.8rem;
+            color: #6a5a4a;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .comic-card .issue {
+            font-size: 0.75rem;
+            color: #6a5a4a;
+            letter-spacing: 1px;
+        }
+        .comic-card .badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 12px;
+            border: 1px solid #e8d5a3;
+            border-radius: 2px;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: #e8d5a3;
+            text-transform: uppercase;
+        }
+        .footer {
+            text-align: center;
+            padding: 25px 20px;
+            color: #4a3a2a;
+            border-top: 1px solid #1a1a1a;
+            margin-top: 50px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+        .footer .line {
+            width: 40px;
+            height: 1px;
+            background: #2a1a0a;
+            margin: 0 auto 10px auto;
+        }
+        /* Single comic featured style */
+        .featured-card {
+            max-width: 280px;
+            margin: 0 auto;
+        }
+        .featured-card .cover {
+            font-size: 4rem;
+        }
+        .featured-card .title {
+            font-size: 1.1rem;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #4a3a2a;
+        }
+        .empty-state h2 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #6a5a4a;
+            font-family: 'Georgia', serif;
+        }
+        .empty-state p {
+            margin-top: 10px;
+            color: #4a3a2a;
+            letter-spacing: 1px;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- ===== HEADER ===== -->
-  <header class="header">
-    <h1>Star Wars Canon Comics Collection</h1>
-    <p>0–3 ABY • Jason Aaron Omnibus</p>
-    <div class="subtitle-line"></div>
-  </header>
+    <header class="header">
+        <h1>Star Wars Canon Comics Collection</h1>
+        <p>0-3 ABY</p>
+        <div class="subtitle-line"></div>
+    </header>
 
-  <!-- ===== NAV ===== -->
-  <nav class="nav-tabs">
-    <a href="index.html">Home</a>
-    <a href="0-3-aby.html" class="active">0-3 ABY</a>
-    <a href="3-4-aby.html">3-4 ABY</a>
-  </nav>
+    <nav class="nav-tabs">
+        <a href="index.html">Home</a>
+        <a href="0-3-aby.html" class="active">0-3 ABY</a>
+        <a href="3-4-aby.html">3-4 ABY</a>
+    </nav>
 
-  <!-- ===== READER CONTROLS ===== -->
-  <div class="reader-controls">
-    <a href="index.html" class="back-link">← Library</a>
+    <main class="content">
+        <h2 class="section-title">0-3 ABY</h2>
+        
+        <div class="comic-grid">
+            <!-- Jason Aaron Omnibus -->
+            <a href="comic.html?id=star-wars-aaron" class="comic-card featured-card">
+                <div class="cover">
+                    <!-- Replace the src with your actual cover image URL -->
+                    <img src="star-wars-aaron-cover.jpg" alt="Star Wars by Jason Aaron Omnibus" onerror="this.style.display='none';this.parentElement.innerHTML='★'">
+                </div>
+                <div class="title">Star Wars by Jason Aaron</div>
+                <div class="subtitle">Omnibus</div>
+                <div class="issue">2015-2017</div>
+                <div class="badge">Complete Collection</div>
+            </a>
+        </div>
 
-    <select id="issue-selector">
-      <!-- Populated by JavaScript -->
-    </select>
+        <!-- Optional: Additional comics can go here later -->
+        <!-- 
+        <div style="margin-top: 50px; border-top: 1px solid #1a1a1a; padding-top: 30px;">
+            <h2 class="section-title" style="font-size: 1.2rem; color: #6a5a4a;">More Coming Soon</h2>
+            <p style="color: #4a3a2a; text-align: center; letter-spacing: 1px;">Additional comics will be added here</p>
+        </div>
+        -->
+    </main>
 
-    <button id="prev-btn" title="Previous spread">◀</button>
-    <span class="page-indicator" id="page-indicator">Page 1 / 1</span>
-    <button id="next-btn" title="Next spread">▶</button>
-
-    <button id="zoom-in" title="Zoom in">+</button>
-    <button id="zoom-out" title="Zoom out">−</button>
-    <button id="zoom-reset" title="Reset zoom">⟲</button>
-
-    <a href="downloads/star-wars-2015-aaron.pdf" class="download-btn" download>⬇ PDF</a>
-  </div>
-
-  <!-- ===== READER MAIN ===== -->
-  <main class="reader-main">
-    <div class="spread-container" id="spread-container">
-      <img id="left-img" src="" alt="Left page" />
-      <img id="right-img" src="" alt="Right page" />
-    </div>
-  </main>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <div class="line"></div>
-    <p>Your private Star Wars collection &bull; 2026</p>
-  </footer>
-
-  <!-- ===== JAVASCRIPT ===== -->
-  <script>
-    // ============================================================
-    // DATA – Jason Aaron Omnibus (Star Wars 2015)
-    // ============================================================
-    const comicData = {
-      title: "Star Wars (2015) by Jason Aaron",
-      totalPages: 544, // Update this to match your actual page count
-      issues: [
-        { number: "01", title: "Skywalker Strikes", startPage: 1, endPage: 32 },
-        { number: "02", title: "Showdown on the Smuggler's Moon", startPage: 33, endPage: 64 },
-        { number: "03", title: "Rebel Jail", startPage: 65, endPage: 96 },
-        { number: "04", title: "Last Flight of the Harbinger", startPage: 97, endPage: 128 },
-        { number: "05", title: "Yoda's Secret War", startPage: 129, endPage: 160 },
-        { number: "06", title: "Out Among the Stars", startPage: 161, endPage: 192 },
-        { number: "07", title: "From the Journals of Old Ben Kenobi", startPage: 193, endPage: 224 },
-        { number: "08", title: "The Screaming Citadel", startPage: 225, endPage: 256 },
-        { number: "09", title: "Hope Dies", startPage: 257, endPage: 288 },
-        { number: "10", title: "The Escape", startPage: 289, endPage: 320 },
-        { number: "11", title: "The Ashes of Jedha", startPage: 321, endPage: 352 },
-        { number: "12", title: "Mutiny on Mon Cala", startPage: 353, endPage: 384 },
-        { number: "13", title: "The Scourging of Shu-Torun", startPage: 385, endPage: 416 },
-        { number: "14", title: "War of the Bounty Hunters", startPage: 417, endPage: 448 },
-        { number: "15", title: "Crimson Reign", startPage: 449, endPage: 480 },
-        { number: "16", title: "Hidden Empire", startPage: 481, endPage: 512 },
-        { number: "17", title: "Return of the Jedi – The Rebellion", startPage: 513, endPage: 544 }
-      ]
-    };
-
-    // ============================================================
-    // STATE
-    // ============================================================
-    let currentPage = 1;
-    let zoomLevel = 1.0;
-    const totalPages = comicData.totalPages;
-
-    // ============================================================
-    // DOM REFS
-    // ============================================================
-    const leftImg = document.getElementById('left-img');
-    const rightImg = document.getElementById('right-img');
-    const spreadContainer = document.getElementById('spread-container');
-    const pageIndicator = document.getElementById('page-indicator');
-    const issueSelector = document.getElementById('issue-selector');
-
-    // ============================================================
-    // HELPERS
-    // ============================================================
-    function pad(num) {
-      return String(num).padStart(3, '0');
-    }
-
-    function getIssueForPage(page) {
-      for (let issue of comicData.issues) {
-        if (page >= issue.startPage && page <= issue.endPage) {
-          return issue;
-        }
-      }
-      return comicData.issues[comicData.issues.length - 1];
-    }
-
-    function getImagePath(issue, pageNum) {
-      // pageNum is the page number within the issue (1-indexed)
-      return `pages/issue-${issue.number}/${pad(pageNum)}.jpg`;
-    }
-
-    // ============================================================
-    // RENDER
-    // ============================================================
-    function goToPage(page) {
-      if (page < 1) page = 1;
-      if (page > totalPages) page = totalPages;
-
-      let leftPage = page;
-      let rightPage = Math.min(page + 1, totalPages);
-
-      // If rightPage is the same as leftPage, the spread only has one image
-      const leftIssue = getIssueForPage(leftPage);
-      const rightIssue = getIssueForPage(rightPage);
-
-      const leftLocal = leftPage - leftIssue.startPage + 1;
-      const rightLocal = rightPage - rightIssue.startPage + 1;
-
-      leftImg.src = getImagePath(leftIssue, leftLocal);
-      // Only load right image if it's a different page
-      if (rightPage !== leftPage) {
-        rightImg.src = getImagePath(rightIssue, rightLocal);
-        rightImg.style.display = 'block';
-      } else {
-        // If only one page, hide the right image
-        rightImg.style.display = 'none';
-      }
-
-      currentPage = page;
-      updateUI();
-    }
-
-    function nextSpread() {
-      goToPage(currentPage + 2);
-    }
-
-    function prevSpread() {
-      goToPage(currentPage - 2);
-    }
-
-    function goToIssue(issueNumber) {
-      const issue = comicData.issues.find(i => i.number === issueNumber);
-      if (issue) {
-        goToPage(issue.startPage);
-      }
-    }
-
-    // ============================================================
-    // UI UPDATES
-    // ============================================================
-    function updateUI() {
-      const leftDisplay = currentPage;
-      const rightDisplay = Math.min(currentPage + 1, totalPages);
-      pageIndicator.textContent = `${leftDisplay}–${rightDisplay} / ${totalPages}`;
-
-      const issue = getIssueForPage(currentPage);
-      if (issue) {
-        issueSelector.value = issue.number;
-      }
-    }
-
-    function populateIssueSelector() {
-      issueSelector.innerHTML = '';
-      for (let issue of comicData.issues) {
-        const opt = document.createElement('option');
-        opt.value = issue.number;
-        opt.textContent = `#${issue.number} – ${issue.title}`;
-        issueSelector.appendChild(opt);
-      }
-      issueSelector.addEventListener('change', (e) => {
-        goToIssue(e.target.value);
-      });
-    }
-
-    // ============================================================
-    // ZOOM
-    // ============================================================
-    function applyZoom() {
-      spreadContainer.style.transform = `scale(${zoomLevel})`;
-    }
-
-    document.getElementById('zoom-in').addEventListener('click', () => {
-      zoomLevel = Math.min(zoomLevel + 0.15, 3.0);
-      applyZoom();
-    });
-
-    document.getElementById('zoom-out').addEventListener('click', () => {
-      zoomLevel = Math.max(zoomLevel - 0.15, 0.4);
-      applyZoom();
-    });
-
-    document.getElementById('zoom-reset').addEventListener('click', () => {
-      zoomLevel = 1.0;
-      applyZoom();
-    });
-
-    // ============================================================
-    // KEYBOARD SHORTCUTS
-    // ============================================================
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' || e.key === ' ') {
-        e.preventDefault();
-        nextSpread();
-      }
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        prevSpread();
-      }
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        zoomLevel = Math.min(zoomLevel + 0.15, 3.0);
-        applyZoom();
-      }
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        zoomLevel = Math.max(zoomLevel - 0.15, 0.4);
-        applyZoom();
-      }
-      if (e.key === 'r') {
-        e.preventDefault();
-        zoomLevel = 1.0;
-        applyZoom();
-      }
-    });
-
-    // ============================================================
-    // BOOT
-    // ============================================================
-    populateIssueSelector();
-    goToPage(1);
-  </script>
+    <footer class="footer">
+        <div class="line"></div>
+        <p>Your private Star Wars collection &bull; 2026</p>
+    </footer>
 
 </body>
 </html>
