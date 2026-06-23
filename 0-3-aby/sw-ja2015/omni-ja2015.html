@@ -486,4 +486,281 @@
                 'Star Wars (2015) 14': 385,
                 'Darth Vader (2015) 15': 409,
                 'Star Wars (2015) 15': 433,
-                'Star Wars Annual (2015
+                'Star Wars Annual (2015) 1': 457,
+                'Star Wars (2015) 16': 481,
+                'Star Wars (2015) 17': 505,
+                'Star Wars (2015) 18': 529,
+                'Star Wars (2015) 19': 553,
+                'Star Wars (2015) 20': 577,
+                'Star Wars (2015) 21': 601,
+                'Star Wars (2015) 22': 625,
+                'Star Wars (2015) 23': 649,
+                'Star Wars (2015) 24': 673,
+                'Star Wars (2015) 25': 697,
+                'Star Wars (2015) 26': 721,
+                'Star Wars (2015) 27': 745,
+                'Star Wars (2015) 28': 769,
+                'Star Wars (2015) 29': 793,
+                'Star Wars (2015) 30': 817,
+                'Star Wars Annual (2015) 2': 841,
+                'The Screaming Citadel 1': 865,
+                'Star Wars (2015) 31': 889,
+                'Doctor Aphra (2016) 7': 913,
+                'Star Wars (2015) 32': 937,
+                'Doctor Aphra (2016) 8': 961,
+                'Star Wars Annual (2015) 3': 985,
+                'Star Wars (2015) 33': 1009,
+                'Star Wars (2015) 34': 1033,
+                'Star Wars (2015) 35': 1057,
+                'Star Wars (2015) 36': 1081,
+                'Star Wars (2015) 37': 1105,
+                '"The Sand Will Provide"': 1129,
+                '"Droid Dilemma"': 1153
+            };
+
+            // DISPLAY NAME FORMATTING
+            function getDisplayName(fullName) {
+                if (fullName === 'Vader Down 1') return 'Vader Down 1';
+                if (fullName === 'The Screaming Citadel 1') return 'The Screaming Citadel 1';
+                if (fullName === '"The Sand Will Provide"') return '"The Sand Will Provide"';
+                if (fullName === '"Droid Dilemma"') return '"Droid Dilemma"';
+
+                if (fullName.startsWith('Star Wars (2015) ')) {
+                    const num = fullName.replace('Star Wars (2015) ', '');
+                    return `SW #${num}`;
+                }
+                if (fullName.startsWith('Star Wars Annual (2015) ')) {
+                    const num = fullName.replace('Star Wars Annual (2015) ', '');
+                    return `Annual #${num}`;
+                }
+                if (fullName.startsWith('Darth Vader (2015) ')) {
+                    const num = fullName.replace('Darth Vader (2015) ', '');
+                    return `DV #${num}`;
+                }
+                if (fullName.startsWith('Doctor Aphra (2016) ')) {
+                    const num = fullName.replace('Doctor Aphra (2016) ', '');
+                    return `Aphra #${num}`;
+                }
+                return fullName;
+            }
+
+            // CORE FUNCTIONS
+            function getPageUrl(pageNum) {
+                // Files are named: Star Wars by Jason Aaron Omnibus-000.jpg, -001.jpg, etc.
+                // Page 1 = -000.jpg, Page 2 = -001.jpg, etc.
+                const padded = String(pageNum - 1).padStart(3, '0');
+                return `pages/Star Wars by Jason Aaron Omnibus-${padded}.jpg`;
+            }
+
+            function renderPage(pageNum) {
+                const img = document.createElement('img');
+                img.src = getPageUrl(pageNum);
+                img.alt = `Page ${pageNum}`;
+                img.draggable = false;
+                img.loading = 'lazy';
+                img.onerror = function() {
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML =
+                        `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#4a3a2a;font-size:1.2rem;letter-spacing:2px;padding:20px;">
+                            Page ${pageNum} (not loaded)
+                        </div>`;
+                };
+                return img;
+            }
+
+            function renderView() {
+                viewer.innerHTML = '';
+                const pagesToShow = Math.min(PAGES_PER_VIEW, TOTAL_PAGES - currentPage + 1);
+
+                for (let i = 0; i < pagesToShow; i++) {
+                    const pageNum = currentPage + i;
+                    if (pageNum > TOTAL_PAGES) break;
+
+                    const pageContainer = document.createElement('div');
+                    pageContainer.className = 'pdf-page';
+                    pageContainer.style.width = `${BASE_PAGE_WIDTH * zoomLevel}px`;
+                    pageContainer.style.flexShrink = '0';
+
+                    const img = renderPage(pageNum);
+                    pageContainer.appendChild(img);
+
+                    viewer.appendChild(pageContainer);
+                }
+
+                updateUI();
+            }
+
+            function updateUI() {
+                pageInput.value = currentPage;
+                const endPage = Math.min(currentPage + PAGES_PER_VIEW - 1, TOTAL_PAGES);
+                document.querySelector('.page-indicator').innerHTML =
+                    `Page ${currentPage}–${endPage} / <span id="totalPagesDisplay">${TOTAL_PAGES}</span>`;
+                totalPagesDisplay.textContent = TOTAL_PAGES;
+                zoomIndicator.textContent = `${Math.round(zoomLevel * 100)}%`;
+                prevBtn.disabled = currentPage <= 1;
+                nextBtn.disabled = currentPage + PAGES_PER_VIEW - 1 >= TOTAL_PAGES;
+                pageInput.min = 1;
+                pageInput.max = TOTAL_PAGES;
+            }
+
+            function goToPage(pageNum) {
+                pageNum = Math.max(1, Math.min(pageNum, TOTAL_PAGES));
+                currentPage = pageNum;
+                renderView();
+            }
+
+            function goToIssue(fullName) {
+                const startPage = issueStarts[fullName];
+                if (startPage) {
+                    goToPage(startPage);
+                } else {
+                    console.warn(`Unknown issue: ${fullName}`);
+                }
+            }
+
+            function zoomIn() {
+                zoomLevel = Math.min(zoomLevel + ZOOM_STEP, MAX_ZOOM);
+                renderView();
+            }
+
+            function zoomOut() {
+                zoomLevel = Math.max(zoomLevel - ZOOM_STEP, MIN_ZOOM);
+                renderView();
+            }
+
+            function resetZoom() {
+                zoomLevel = 1.0;
+                renderView();
+            }
+
+            // EVENT LISTENERS
+            prevBtn.addEventListener('click', function() {
+                if (currentPage > 1) goToPage(currentPage - PAGES_PER_VIEW);
+            });
+
+            nextBtn.addEventListener('click', function() {
+                if (currentPage + PAGES_PER_VIEW - 1 < TOTAL_PAGES) goToPage(currentPage + PAGES_PER_VIEW);
+            });
+
+            pageInput.addEventListener('change', function() {
+                const val = parseInt(this.value);
+                if (!isNaN(val) && val >= 1 && val <= TOTAL_PAGES) {
+                    goToPage(val);
+                } else {
+                    this.value = currentPage;
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.target.tagName === 'INPUT') return;
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    if (currentPage > 1) goToPage(currentPage - PAGES_PER_VIEW);
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    if (currentPage + PAGES_PER_VIEW - 1 < TOTAL_PAGES) goToPage(currentPage + PAGES_PER_VIEW);
+                } else if (e.key === '+' || e.key === '=') {
+                    e.preventDefault();
+                    zoomIn();
+                } else if (e.key === '-') {
+                    e.preventDefault();
+                    zoomOut();
+                } else if (e.key === '0') {
+                    e.preventDefault();
+                    resetZoom();
+                }
+            });
+
+            zoomInBtn.addEventListener('click', zoomIn);
+            zoomOutBtn.addEventListener('click', zoomOut);
+            zoomResetBtn.addEventListener('click', resetZoom);
+
+            viewer.addEventListener('wheel', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                    e.preventDefault();
+                    if (e.deltaY < 0) zoomIn();
+                    else zoomOut();
+                }
+            }, { passive: false });
+
+            let lastTouchDist = 0;
+            viewer.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 2) {
+                    const t1 = e.touches[0];
+                    const t2 = e.touches[1];
+                    lastTouchDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+                }
+            }, { passive: true });
+
+            viewer.addEventListener('touchmove', function(e) {
+                if (e.touches.length === 2) {
+                    e.preventDefault();
+                    const t1 = e.touches[0];
+                    const t2 = e.touches[1];
+                    const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+                    const delta = dist - lastTouchDist;
+                    if (Math.abs(delta) > 5) {
+                        if (delta > 0) zoomIn();
+                        else zoomOut();
+                        lastTouchDist = dist;
+                    }
+                }
+            }, { passive: false });
+
+            viewer.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                scrollLeft = viewer.scrollLeft;
+                scrollTop = viewer.scrollTop;
+                viewer.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                viewer.scrollLeft = scrollLeft - dx;
+                viewer.scrollTop = scrollTop - dy;
+            });
+
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                viewer.style.cursor = 'grab';
+            });
+
+            // BUILD ISSUE JUMPER
+            function buildIssueJumper() {
+                issueJumper.innerHTML = '';
+                issueNames.forEach(function(fullName) {
+                    const btn = document.createElement('button');
+                    btn.textContent = getDisplayName(fullName);
+                    btn.title = `Go to ${fullName}`;
+                    btn.addEventListener('click', function() {
+                        goToIssue(fullName);
+                    });
+                    issueJumper.appendChild(btn);
+                });
+            }
+
+            // DOWNLOAD BUTTON (disable since PDF isn't hosted)
+            downloadBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('The PDF is too large to host on GitHub.\nPlease use the JPG pages to read the comic.');
+            });
+
+            // INITIALIZATION
+            function init() {
+                totalPagesDisplay.textContent = TOTAL_PAGES;
+                buildIssueJumper();
+                goToPage(1);
+            }
+
+            init();
+
+        })();
+    </script>
+
+</body>
+</html>
