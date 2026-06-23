@@ -179,6 +179,51 @@
             font-size: 0.8rem;
             color: #6a5a4a;
             letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        /* Expand button style */
+        .expand-btn {
+            display: inline-block;
+            padding: 6px 18px;
+            margin-top: 5px;
+            border: 1px solid #6a5a4a;
+            border-radius: 2px;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: #8a7a5a;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Trebuchet MS', 'Arial', sans-serif;
+            text-transform: uppercase;
+        }
+        .expand-btn:hover {
+            border-color: #e8d5a3;
+            color: #e8d5a3;
+            background: transparent;
+        }
+        /* Expanded content */
+        .expanded-content {
+            display: none;
+            margin-top: 12px;
+            padding: 12px 15px;
+            border-top: 1px solid #2a1a0a;
+            text-align: left;
+            font-size: 0.8rem;
+            color: #8a7a5a;
+            letter-spacing: 0.5px;
+            line-height: 1.8;
+        }
+        .expanded-content.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .expanded-content .item {
+            color: #8a7a5a;
         }
         .footer {
             text-align: center;
@@ -228,14 +273,29 @@
         
         <div class="comic-grid">
             <!-- Jason Aaron Omnibus -->
-            <a href="comic.html?id=star-wars-aaron" class="comic-card featured-card">
+            <div class="comic-card featured-card">
                 <div class="cover" id="comicCover">
                     <!-- Replace the src with your actual cover image URL -->
                     <img src="star-wars-aaron-cover.jpg" alt="Star Wars by Jason Aaron Omnibus" onerror="this.style.display='none';this.parentElement.innerHTML='★'">
                 </div>
                 <div class="title">Star Wars by Jason Aaron Omnibus</div>
-                <div class="subtitle">2015-2017</div>
-            </a>
+                <div class="subtitle">2015-2017 (Released 2019)</div>
+                
+                <!-- Expand Button -->
+                <button class="expand-btn" onclick="toggleExpand(this)">▼ Contents</button>
+                
+                <!-- Expanded Content -->
+                <div class="expanded-content">
+                    <div class="item">Star Wars (2015) #1-37</div>
+                    <div class="item">Star Wars Annual (2015) #1-3</div>
+                    <div class="item">Darth Vader (2015) #13-15</div>
+                    <div class="item">Vader Down 1</div>
+                    <div class="item">Doctor Aphra (2016) #7-8</div>
+                    <div class="item">The Screaming Citadel 1</div>
+                    <div class="item">"The Sand Will Provide"</div>
+                    <div class="item">"Droid Dilemma"</div>
+                </div>
+            </div>
         </div>
 
         <!-- Optional: Additional comics can go here later -->
@@ -251,6 +311,24 @@
         <div class="line"></div>
         <p>Your private Star Wars collection &bull; 2026</p>
     </footer>
+
+    <script>
+        function toggleExpand(button) {
+            // Find the parent comic-card and the expanded content inside it
+            var card = button.closest('.comic-card');
+            var content = card.querySelector('.expanded-content');
+            
+            // Toggle the 'show' class
+            content.classList.toggle('show');
+            
+            // Change button text
+            if (content.classList.contains('show')) {
+                button.innerHTML = '▲ Contents';
+            } else {
+                button.innerHTML = '▼ Contents';
+            }
+        }
+    </script>
 
 </body>
 </html>
