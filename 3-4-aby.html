@@ -1,4 +1,4 @@
-<!-- v2 - Fresh deployment yes -->
+<!-- v2 - Fresh deployment -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -124,14 +124,14 @@
         }
         .comic-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
             margin-top: 5px;
         }
         .comic-card {
             background: #111111;
             border-radius: 4px;
-            padding: 15px 15px 18px 15px;
+            padding: 20px 20px 25px 20px;
             text-align: center;
             transition: all 0.3s ease;
             border: 1px solid #1a1a1a;
@@ -140,9 +140,9 @@
             color: #e8d5a3;
         }
         .comic-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-8px);
             border-color: #e8d5a3;
-            box-shadow: 0 8px 30px rgba(232, 213, 163, 0.1);
+            box-shadow: 0 8px 30px rgba(232, 213, 163, 0.15);
             background: #16100a;
         }
         .comic-card .cover {
@@ -153,23 +153,71 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            margin-bottom: 12px;
+            font-size: 3rem;
+            margin-bottom: 15px;
             border: 1px solid #222;
             color: #5a4a3a;
             font-family: 'Georgia', serif;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150" opacity="0.1"><rect width="100" height="150" fill="%231a1a1a"/><text x="50" y="80" font-family="Georgia" font-size="40" fill="%235a4a3a" text-anchor="middle">★</text></svg>');
+            background-size: cover;
+        }
+        .comic-card .cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
         }
         .comic-card .title {
             font-weight: 300;
-            font-size: 0.85rem;
-            margin-bottom: 4px;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
             letter-spacing: 1px;
             color: #e8d5a3;
+        }
+        .comic-card .subtitle {
+            font-size: 0.8rem;
+            color: #6a5a4a;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
         }
         .comic-card .issue {
             font-size: 0.75rem;
             color: #6a5a4a;
             letter-spacing: 1px;
+        }
+        .comic-card .badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 12px;
+            border: 1px solid #e8d5a3;
+            border-radius: 2px;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: #e8d5a3;
+            text-transform: uppercase;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #4a3a2a;
+        }
+        .empty-state .icon {
+            font-size: 3rem;
+            color: #4a3a2a;
+            margin-bottom: 15px;
+        }
+        .empty-state h3 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #6a5a4a;
+            font-family: 'Georgia', serif;
+        }
+        .empty-state p {
+            margin-top: 10px;
+            color: #4a3a2a;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
         }
         .footer {
             text-align: center;
@@ -205,23 +253,23 @@
 
     <main class="content">
         <h2 class="section-title">3-4 ABY</h2>
+        
+        <div class="empty-state">
+            <div class="icon">✦</div>
+            <h3>No Comics Added Yet</h3>
+            <p>Comics from this era will appear here soon</p>
+        </div>
+        
+        <!-- Comics will be added here later -->
+        <!-- 
         <div class="comic-grid">
             <a href="comic.html?id=7" class="comic-card">
                 <div class="cover">E</div>
                 <div class="title">Star Wars: Empire #1</div>
                 <div class="issue">2024</div>
             </a>
-            <a href="comic.html?id=8" class="comic-card">
-                <div class="cover">R</div>
-                <div class="title">Star Wars: Rebellion #1</div>
-                <div class="issue">2024</div>
-            </a>
-            <a href="comic.html?id=9" class="comic-card">
-                <div class="cover">V</div>
-                <div class="title">Darth Vader (2017) #1</div>
-                <div class="issue">2024</div>
-            </a>
         </div>
+        -->
     </main>
 
     <footer class="footer">
