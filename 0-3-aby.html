@@ -124,18 +124,18 @@
         }
         .comic-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 30px;
             margin-top: 5px;
         }
         .comic-card {
             background: #111111;
             border-radius: 4px;
-            padding: 20px 20px 25px 20px;
+            padding: 25px 25px 30px 25px;
             text-align: center;
             transition: all 0.3s ease;
             border: 1px solid #1a1a1a;
-            cursor: pointer;
+            cursor: default;
             text-decoration: none;
             color: #e8d5a3;
         }
@@ -243,8 +243,9 @@
         }
         /* Single comic featured style */
         .featured-card {
-            max-width: 280px;
+            max-width: 340px;
             margin: 0 auto;
+            width: 100%;
         }
         .featured-card .cover {
             font-size: 4rem;
