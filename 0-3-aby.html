@@ -160,6 +160,7 @@
             font-family: 'Georgia', serif;
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150" opacity="0.1"><rect width="100" height="150" fill="%231a1a1a"/><text x="50" y="80" font-family="Georgia" font-size="40" fill="%235a4a3a" text-anchor="middle">★</text></svg>');
             background-size: cover;
+            overflow: hidden;
         }
         .comic-card .cover img {
             width: 100%;
@@ -178,23 +179,6 @@
             font-size: 0.8rem;
             color: #6a5a4a;
             letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-        .comic-card .issue {
-            font-size: 0.75rem;
-            color: #6a5a4a;
-            letter-spacing: 1px;
-        }
-        .comic-card .badge {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 4px 12px;
-            border: 1px solid #e8d5a3;
-            border-radius: 2px;
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            color: #e8d5a3;
-            text-transform: uppercase;
         }
         .footer {
             text-align: center;
@@ -223,23 +207,6 @@
         .featured-card .title {
             font-size: 1.1rem;
         }
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #4a3a2a;
-        }
-        .empty-state h2 {
-            font-size: 2rem;
-            font-weight: 300;
-            letter-spacing: 3px;
-            color: #6a5a4a;
-            font-family: 'Georgia', serif;
-        }
-        .empty-state p {
-            margin-top: 10px;
-            color: #4a3a2a;
-            letter-spacing: 1px;
-        }
     </style>
 </head>
 <body>
@@ -262,14 +229,12 @@
         <div class="comic-grid">
             <!-- Jason Aaron Omnibus -->
             <a href="comic.html?id=star-wars-aaron" class="comic-card featured-card">
-                <div class="cover">
+                <div class="cover" id="comicCover">
                     <!-- Replace the src with your actual cover image URL -->
                     <img src="star-wars-aaron-cover.jpg" alt="Star Wars by Jason Aaron Omnibus" onerror="this.style.display='none';this.parentElement.innerHTML='★'">
                 </div>
-                <div class="title">Star Wars by Jason Aaron</div>
-                <div class="subtitle">Omnibus</div>
-                <div class="issue">2015-2017</div>
-                <div class="badge">Complete Collection</div>
+                <div class="title">Star Wars by Jason Aaron Omnibus</div>
+                <div class="subtitle">2015-2017</div>
             </a>
         </div>
 
